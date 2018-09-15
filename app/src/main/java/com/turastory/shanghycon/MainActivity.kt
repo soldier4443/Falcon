@@ -3,6 +3,7 @@ package com.turastory.shanghycon
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.google.gson.JsonObject
 import com.turastory.shanghycon.util.Util
 import com.turastory.shanghycon.util.Util.bytesToHex
 import com.turastory.shanghycon.util.Util.hexStringToByteArray
@@ -57,12 +58,13 @@ class MainActivity : AppCompatActivity() {
 
         disconnectButton.setOnClickListener {
             val output = runHash("baf726c86fa097f9d41a4d9d0e316da931902b72bcbf10e079aa24f387b04036ccd90c01d31234c2db4c52b19af0dfa3f205d9896d044ae99d9db90991fe1261000000005c040000")
-            le("result: ${bytesToHex(output)}")
+            le("result: $output")
         }
 
         calculateButton.setOnClickListener {
-            val output = runHash("e001088654afc43f22ae8200389e5beea354a5a7f7c471d29cefe8479332a1ad437b591a45d993ac595d837f599041748aaf0ffca3d36569bd14fa54d5a2dc44000000000c000000")
-            le("result: ${bytesToHex(output)}")
+            val output = runHash("ebb18ff68e74dcd0adc53b3635a70c0d9b1ff8e3a7ad3bb76aaf69fd30324c38654524da6d50dbe21f0a622e823cb2e7c08c6b0530d66043d6f4be40ae15b95d0000000001000000",
+                "e23cb248b0774100")
+            le("result: $output")
         }
     }
 
@@ -94,21 +96,37 @@ class MainActivity : AppCompatActivity() {
 
                         array[1].let { prevHash ->
                             val prevHex = (prevHash as String)
-                            (1..5).forEach { nonce ->
-                                val nonceHex = makeNonceHex(nonce)
-                                val problem = "$prevHex$nonceHex"
-                                le("PrevHex: $prevHex")
-                                le("Nonce: $nonceHex")
-                                le("Problem: $problem")
-                                val result = runHash(problem, target)
-                                send(makeSubmitRequest(Util.bytesToHex(result), nonceHex))
+                            (1..maxNonce).forEach { nonce ->
+                                val nonceHex = makeNonceHex(nonce.toInt())
+                                send(makeSubmitRequest(Util.bytesToHex(ByteArray(0)), nonceHex))
+                                le("submit!! nonce: $nonce")
+                                Thread.sleep(20)
                             }
+
+//                            (1..5).forEach { nonce ->
+//                                val nonceHex = makeNonceHex(nonce)
+//                                val problem = "$prevHex$nonceHex"
+//                                le("PrevHex: $prevHex")
+//                                le("Nonce: $nonceHex")
+//                                le("Problem: $problem")
+//                                val result = runHash(problem, target)
+//                                le("nonce $nonce result: $result")
+//                                send(makeSubmitRequest(Util.bytesToHex(result), nonceHex))
+//                            }
                         }
                     } ?: let {
                         le("no param..? what the fuck!?")
                     }
                 }
 
+                if (jsonObject.has("result")) {
+                    val a = jsonObject.get("result")
+                    if (a is JsonObject && jsonObject.getJSONObject("result").getString("status") == "OK" &&
+                        !jsonObject.getJSONObject("result").has("job")) {
+                        le("Share accepted by the pool!")
+                        return
+                    }
+                }
             }
         }
     }
@@ -125,8 +143,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun runHash(problem: String, target: String = ""): ByteArray {
-        val input = hexStringToByteArray("$problem$target")
-        slowHash(input, ByteArray(0), 0)
+        val input = hexStringToByteArray(problem)
+        val targetInput = hexStringToByteArray(target)
+        slowHash(input, targetInput, 0)
         return output
     }
 
@@ -153,6 +172,7 @@ class MainActivity : AppCompatActivity() {
             put("params", JSONArray().put("Node.js Stratum"))
         }
 
+    // 사실상 여기서 hashHex는 의미 없음. nonce가 중요함
     private fun makeSubmitRequest(hashHex: String, nonceHex: String) =
         JSONObject().apply {
             put("method", "mining.submit")
@@ -171,5 +191,5 @@ class MainActivity : AppCompatActivity() {
     /**
      * Native implementation of cryptonight hash function.
      */
-    external fun slowHash(input: ByteArray, output: ByteArray, variant: Int)
+    external fun slowHash(input: ByteArray, target: ByteArray, variant: Int)
 }

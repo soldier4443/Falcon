@@ -79,7 +79,9 @@ enum {
 };
 
 void cn_fast_hash(const void *data, size_t length, char *hash);
-bool cn_slow_hash(const void *data, size_t length, const void *target, int variant, int prehashed);
+bool cn_slow_hash(const uint64_t val0, const uint64_t val1, const uint64_t val2, const uint64_t val3,
+                  const uint64_t val4, const uint64_t val5, const uint64_t val6, const uint64_t val7,
+                  const uint64_t val8, const uint64_t val9, int variant, int prehashed);
 
 void hash_extra_blake(const void *data, size_t length, char *hash);
 void hash_extra_groestl(const void *data, size_t length, char *hash);

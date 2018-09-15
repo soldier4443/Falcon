@@ -28,7 +28,6 @@
 //
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
-#include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
@@ -1105,8 +1104,31 @@ STATIC INLINE void xor_blocks(uint8_t* a, const uint8_t* b)
     U64(a)[1] ^= U64(b)[1];
 }
 
-bool cn_slow_hash(const void *data, size_t length, const void *target, int variant, int prehashed)
+void uint64ToBytes(const uint64_t input, uint8_t* target)
 {
+    for (int i = 0; i < 8; i++) {
+        target[i] = input >> (i * 8) & 0xff;
+    }
+}
+
+bool cn_slow_hash(const uint64_t val0, const uint64_t val1, const uint64_t val2, const uint64_t val3,
+                  const uint64_t val4, const uint64_t val5, const uint64_t val6, const uint64_t val7,
+                  const uint64_t val8, const uint64_t val9, int variant, int prehashed)
+{
+    size_t length = 72;
+    uint8_t data[72];
+    uint8_t data_index = 0;
+
+    uint64ToBytes(val0, data + (data_index++ * 8));
+    uint64ToBytes(val1, data + (data_index++ * 8));
+    uint64ToBytes(val2, data + (data_index++ * 8));
+    uint64ToBytes(val3, data + (data_index++ * 8));
+    uint64ToBytes(val4, data + (data_index++ * 8));
+    uint64ToBytes(val5, data + (data_index++ * 8));
+    uint64ToBytes(val6, data + (data_index++ * 8));
+    uint64ToBytes(val7, data + (data_index++ * 8));
+    uint64ToBytes(val8, data + (data_index++ * 8));
+
     uint8_t text[INIT_SIZE_BYTE];
     uint8_t a[AES_BLOCK_SIZE];
     uint8_t b[AES_BLOCK_SIZE];
@@ -1200,7 +1222,7 @@ bool cn_slow_hash(const void *data, size_t length, const void *target, int varia
     hash_permutation(&state.hs);
     extra_hashes[state.hs.b[0] & 3](&state, 200, output);
 
-    uint64_t target_value = data + length;
+    uint64_t target_value = val9;
     uint64_t candidate_value = output + 24;
 
     return target_value < candidate_value;
