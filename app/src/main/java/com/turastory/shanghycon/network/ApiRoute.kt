@@ -10,7 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 /**
  * Created by tura on 2018-09-15.
  */
-private val build = Retrofit.Builder()
+
+val unsplash: UnsplashApi = Retrofit.Builder()
     .baseUrl(UnsplashApi.baseUrl)
     .client(OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -20,6 +21,16 @@ private val build = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
     .build()
-
-val UNSPLASH: UnsplashApi = build
     .create(UnsplashApi::class.java)
+
+val hycon: HyconApi = Retrofit.Builder()
+    .baseUrl(HyconApi.baseUrl)
+    .client(OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build())
+    .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+    .build()
+    .create(HyconApi::class.java)

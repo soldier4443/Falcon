@@ -3,7 +3,7 @@ package com.turastory.shanghycon
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.turastory.shanghycon.network.UNSPLASH
+import com.turastory.shanghycon.network.unsplash
 import com.turastory.shanghycon.vo.Feed
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -18,7 +18,7 @@ class FeedAdapter : RecyclerView.Adapter<FeedAdapter.ViewHolder>() {
     private val feeds = mutableListOf<Feed>()
 
     fun loadNewFeeds() {
-        UNSPLASH.getRecentPhotos()
+        unsplash.getRecentPhotos()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {

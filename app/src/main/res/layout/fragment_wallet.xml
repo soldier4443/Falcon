@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:text="My Wallet"
+    android:textColor="@color/pointDark"
+    android:textSize="24dp"
+    app:layout_constraintBottom_toTopOf="@+id/imageView"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"/>
+
+  <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    android:scaleType="centerCrop"
+    android:src="@drawable/profile"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.25"/>
+
+  <TextView
+    android:id="@+id/addressLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Addr"
+    android:textColor="@color/black"
+    android:textSize="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.55"/>
+
+  <TextView
+    android:id="@+id/addressValue"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:textColor="@color/pointDark"
+    android:textSize="16dp"
+    android:textStyle="bold"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/addressLabel"
+    tools:text="H2UevVaqYWo3Quw9oKPqU632VwP9oCcKB"/>
+
+  <TextView
+    android:id="@+id/hyconLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Hycon"
+    android:textColor="@color/black"
+    android:textSize="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.7"/>
+
+  <TextView
+    android:id="@+id/hyconValue"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    tools:text="12400 HYC"
+    android:textColor="@color/pointDark"
+    android:textSize="20dp"
+    android:textStyle="bold"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/hyconLabel"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -2,8 +2,6 @@ package com.turastory.shanghycon
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener
 import kotlinx.android.synthetic.main.activity_home.*
 
 
@@ -13,26 +11,39 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
+    private val miner = HyconMiner()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        setupFeeds()
+        miner.runServer()
+        showFeed()
+
+        bottomNavigation.setOnNavigationItemSelectedListener {
+            if (it.itemId == R.id.action_feed) {
+                showFeed()
+            } else if (it.itemId == R.id.action_wallet) {
+                showWallet()
+            }
+            true
+        }
     }
 
-    private fun setupFeeds() {
-        feedListView.apply {
-            val linearLayoutManager = LinearLayoutManager(this@HomeActivity)
-            val feedAdapter = FeedAdapter().apply { loadNewFeeds() }
+    private fun showWallet() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, WalletFragment(), "wallet")
+            .commit()
+    }
 
-            layoutManager = linearLayoutManager
-            adapter = feedAdapter
-            addOnScrollListener(object : InfiniteScrollListener(15, linearLayoutManager) {
-                override fun onScrolledToEnd(firstVisibleItemPosition: Int) {
-                    feedAdapter.loadNewFeeds()
-                }
-            })
-//            addItemDecoration(DividerItemDecoration(context, linearLayoutManager.orientation))
-        }
+    private fun showFeed() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, FeedFragment(), "feed")
+            .commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        miner.stopServer()
     }
 }
