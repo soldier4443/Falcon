@@ -1,3 +1,5 @@
 <resources>
   <string name="app_name">Falcon</string>
+  <string name="menu_feed">피드</string>
+  <string name="menu_profile">프로필</string>
 </resources>

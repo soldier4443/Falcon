@@ -3,8 +3,9 @@ package com.turastory.shanghycon
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.turastory.shanghycon.Util.bytesToHex
-import com.turastory.shanghycon.Util.hexStringToByteArray
+import com.turastory.shanghycon.util.Util
+import com.turastory.shanghycon.util.Util.bytesToHex
+import com.turastory.shanghycon.util.Util.hexStringToByteArray
 import kotlinx.android.synthetic.main.activity_test.*
 import org.json.JSONArray
 import org.json.JSONObject

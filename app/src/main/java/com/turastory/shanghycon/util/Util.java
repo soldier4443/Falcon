@@ -1,4 +1,4 @@
-package com.turastory.shanghycon;
+package com.turastory.shanghycon.util;
 
 /**
  * Created by tura on 2018-09-15.

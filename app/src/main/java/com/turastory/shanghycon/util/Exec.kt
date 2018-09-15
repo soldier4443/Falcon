@@ -1,7 +1,6 @@
-package com.turastory.shanghycon
+package com.turastory.shanghycon.util
 
 import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 /**
  * Created by tura on 2018-09-15.
