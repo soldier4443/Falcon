@@ -28,20 +28,6 @@ class WalletFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addressValue.text = address
-
-        hycon.getBalance()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError {
-
-            }
-            .subscribe { accountBalance ->
-                accountBalance?.balance?.let { it ->
-                    recent = it
-                    hyconValue.text = "$it HYC"
-                } ?: let {
-                    hyconValue.text = "$recent HYC"
-                }
-            }
+        hyconValue.text = "100 HYC"
     }
 }
