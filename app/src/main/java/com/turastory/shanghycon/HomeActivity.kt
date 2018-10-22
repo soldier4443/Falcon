@@ -11,13 +11,10 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
-    private val miner = HyconMiner()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        miner.runServer()
         showFeed()
 
         bottomNavigation.setOnNavigationItemSelectedListener {
@@ -40,10 +37,5 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, FeedFragment(), "feed")
             .commit()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        miner.stopServer()
     }
 }
